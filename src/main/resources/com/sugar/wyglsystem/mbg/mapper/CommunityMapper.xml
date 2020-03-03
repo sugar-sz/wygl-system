@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sugar.wyglsystem.mbg.mapper.CommunityMapper">
+  <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.mbg.model.Community">
+    <id column="community_id" jdbcType="BIGINT" property="communityId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="community_address" jdbcType="VARCHAR" property="communityAddress" />
+    <result column="month" jdbcType="VARCHAR" property="month" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="operate" jdbcType="VARCHAR" property="operate" />
+    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    community_id, name, community_address, month, create_time, operate, admin_id, phone
+  </sql>
+  <select id="selectByExample" parameterType="com.sugar.wyglsystem.mbg.model.CommunityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from community
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from community
+    where community_id = #{communityId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from community
+    where community_id = #{communityId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sugar.wyglsystem.mbg.model.CommunityExample">
+    delete from community
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sugar.wyglsystem.mbg.model.Community">
+    insert into community (community_id, name, community_address, 
+      month, create_time, operate, 
+      admin_id, phone)
+    values (#{communityId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{communityAddress,jdbcType=VARCHAR}, 
+      #{month,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{operate,jdbcType=VARCHAR}, 
+      #{adminId,jdbcType=BIGINT}, #{phone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sugar.wyglsystem.mbg.model.Community">
+    insert into community
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="communityAddress != null">
+        community_address,
+      </if>
+      <if test="month != null">
+        month,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="operate != null">
+        operate,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        #{communityId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="communityAddress != null">
+        #{communityAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="month != null">
+        #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="operate != null">
+        #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sugar.wyglsystem.mbg.model.CommunityExample" resultType="java.lang.Integer">
+    select count(*) from community
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update community
+    <set>
+      <if test="record.communityId != null">
+        community_id = #{record.communityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.communityAddress != null">
+        community_address = #{record.communityAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.month != null">
+        month = #{record.month,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.operate != null">
+        operate = #{record.operate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminId != null">
+        admin_id = #{record.adminId,jdbcType=BIGINT},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update community
+    set community_id = #{record.communityId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      community_address = #{record.communityAddress,jdbcType=VARCHAR},
+      month = #{record.month,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=DATE},
+      operate = #{record.operate,jdbcType=VARCHAR},
+      admin_id = #{record.adminId,jdbcType=BIGINT},
+      phone = #{record.phone,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sugar.wyglsystem.mbg.model.Community">
+    update community
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="communityAddress != null">
+        community_address = #{communityAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="month != null">
+        month = #{month,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="operate != null">
+        operate = #{operate,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where community_id = #{communityId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sugar.wyglsystem.mbg.model.Community">
+    update community
+    set name = #{name,jdbcType=VARCHAR},
+      community_address = #{communityAddress,jdbcType=VARCHAR},
+      month = #{month,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      operate = #{operate,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=BIGINT},
+      phone = #{phone,jdbcType=VARCHAR}
+    where community_id = #{communityId,jdbcType=BIGINT}
+  </update>
+</mapper>

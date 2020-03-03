@@ -1,4 +1,4 @@
-package com.sugar.wyglsystem.service.impl;
+package com.sugar.wyglsystem.service;
 
 import com.sugar.wyglsystem.mbg.model.WyglAdmin;
 
@@ -10,4 +10,5 @@ import com.sugar.wyglsystem.mbg.model.WyglAdmin;
 public interface WyglAdminService {
     WyglAdmin login(String username, String password);
     WyglAdmin register(WyglAdmin wyglAdmin);
+    WyglAdmin getAdminById(Long id);
 }

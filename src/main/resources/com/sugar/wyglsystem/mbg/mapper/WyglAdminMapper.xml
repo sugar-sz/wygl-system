@@ -12,6 +12,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, password, icon, email, real_name, note, create_time, login_time, status
+    id, username, password, icon, email, real_name, note, create_time, login_time, status, 
+    phone
   </sql>
   <select id="selectByExample" parameterType="com.sugar.wyglsystem.mbg.model.WyglAdminExample" resultMap="BaseResultMap">
     select
@@ -110,12 +112,12 @@
     </selectKey>
     insert into wygl_admin (username, password, icon, 
       email, real_name, note, 
-      create_time, login_time, status
-      )
+      create_time, login_time, status, 
+      phone)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{loginTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sugar.wyglsystem.mbg.model.WyglAdmin">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -150,6 +152,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="phone != null">
+        phone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="username != null">
@@ -178,6 +183,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -220,6 +228,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
       </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -236,7 +247,8 @@
       note = #{record.note,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       login_time = #{record.loginTime,jdbcType=TIMESTAMP},
-      status = #{record.status,jdbcType=INTEGER}
+      status = #{record.status,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -271,6 +283,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -284,7 +299,8 @@
       note = #{note,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       login_time = #{loginTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
