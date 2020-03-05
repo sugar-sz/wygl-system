@@ -4,9 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.sugar.wyglsystem.mbg.mapper.MemberMapper;
 import com.sugar.wyglsystem.mbg.model.Member;
 import com.sugar.wyglsystem.mbg.model.MemberExample;
-import com.sugar.wyglsystem.mbg.model.Owner;
 import com.sugar.wyglsystem.service.MemberService;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

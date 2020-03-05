@@ -1,14 +1,15 @@
 package com.sugar.wyglsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.sugar.wyglsystem.dto.OwnerDto;
 import com.sugar.wyglsystem.mbg.mapper.OwnerMapper;
 import com.sugar.wyglsystem.mbg.model.Owner;
 import com.sugar.wyglsystem.mbg.model.OwnerExample;
 import com.sugar.wyglsystem.service.OwnerService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,19 +39,23 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owner getOwnerById(Long id) {
+    public OwnerDto getOwnerById(Long id) {
+        OwnerDto ownerDto = new OwnerDto();
+        List<Owner> ownerList = new ArrayList<>();
         Owner owner = ownerMapper.selectByPrimaryKey(id);
         if (owner != null) {
-            return owner;
+            ownerList.add(owner);
+            ownerDto.setList(ownerList);
+            return ownerDto;
         }
         return null;
     }
 
     @Override
     public List<Owner> getOwnerByName(String name, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         OwnerExample example = new OwnerExample();
-        example.createCriteria().andNameEqualTo(name);
+        example.createCriteria().andNameLike("%" + name + "%");
         List<Owner> ownerList = ownerMapper.selectByExample(example);
         if (ownerList.size() == 0) {
             return null;

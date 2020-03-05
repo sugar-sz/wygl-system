@@ -1,6 +1,6 @@
 package com.sugar.wyglsystem.service;
 
-import com.sugar.wyglsystem.mbg.model.Community;
+import com.sugar.wyglsystem.dto.OwnerDto;
 import com.sugar.wyglsystem.mbg.model.Owner;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface OwnerService {
 
     int deleteOwner(Long id);
 
-    Owner getOwnerById(Long id);
+    OwnerDto getOwnerById(Long id);
 
     List<Owner> getOwnerByName(String name, Integer pageNum, Integer pageSize);
 

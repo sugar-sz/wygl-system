@@ -1,9 +1,6 @@
 package com.sugar.wyglsystem.service;
 
-import com.sugar.wyglsystem.common.api.CommonResult;
 import com.sugar.wyglsystem.mbg.model.Community;
-import io.swagger.models.auth.In;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -48,4 +45,6 @@ public interface CommunityService {
     Community insertCommunity(Community community);
 
     int deleteListCommunity(List<Long> idList);
+
+    List<Community> getCommunityByName(String name, Integer pageNum, Integer pageSize);
 }

@@ -2,6 +2,7 @@ package com.sugar.wyglsystem.controller;
 
 import com.sugar.wyglsystem.common.api.CommonPage;
 import com.sugar.wyglsystem.common.api.CommonResult;
+import com.sugar.wyglsystem.dto.OwnerDto;
 import com.sugar.wyglsystem.mbg.model.Owner;
 import com.sugar.wyglsystem.service.OwnerService;
 import io.swagger.annotations.Api;
@@ -63,9 +64,9 @@ public class OwnerController {
         return CommonResult.failed("更新失败");
     }
 
-    @GetMapping
+    @GetMapping("/")
     @ApiOperation("根据姓名查找业主")
-    public CommonResult<CommonPage<Owner>> selectOwnerByName(@RequestParam("name") String name,
+    public CommonResult<CommonPage<Owner>> selectOwnerByName(@RequestParam String name,
                                                              @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                              @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize) {
         System.out.println(name);
@@ -74,5 +75,15 @@ public class OwnerController {
             return CommonResult.success(CommonPage.resetPage(ownerList));
         }
         return CommonResult.failed("业主不存在");
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询业主")
+    public CommonResult selectOwnerById(@PathVariable("id") Long id) {
+        OwnerDto ownerDto = ownerService.getOwnerById(id);
+        if (ownerDto != null) {
+            return CommonResult.success(ownerDto);
+        }
+        return null;
     }
 }

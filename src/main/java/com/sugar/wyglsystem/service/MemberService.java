@@ -1,7 +1,6 @@
 package com.sugar.wyglsystem.service;
 
 import com.sugar.wyglsystem.mbg.model.Member;
-import com.sugar.wyglsystem.mbg.model.Owner;
 
 import java.util.List;
 

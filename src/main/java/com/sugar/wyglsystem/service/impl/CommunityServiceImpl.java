@@ -1,12 +1,10 @@
 package com.sugar.wyglsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.sugar.wyglsystem.common.api.CommonResult;
 import com.sugar.wyglsystem.mbg.mapper.CommunityMapper;
 import com.sugar.wyglsystem.mbg.model.Community;
 import com.sugar.wyglsystem.mbg.model.CommunityExample;
 import com.sugar.wyglsystem.service.CommunityService;
-import org.hibernate.validator.internal.util.IdentitySet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,10 +55,24 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public int deleteListCommunity(List<Long> idList) {
         int count = 0;
-        for(Long id: idList){
+        for (Long id : idList) {
             communityMapper.deleteByPrimaryKey(id);
             count++;
         }
         return count;
+    }
+
+    @Override
+    public List<Community> getCommunityByName(String name, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        CommunityExample example = new CommunityExample();
+        example.createCriteria().andNameLike("%" + name + "%");
+        List<Community> communityList = communityMapper.selectByExample(example);
+
+        if (communityList.size() > 0) {
+            System.out.println(communityList);
+            return communityList;
+        }
+        return null;
     }
 }

@@ -33,6 +33,15 @@ public class CommunityController {
         return success;
     }
 
+    @GetMapping("/")
+    @ApiOperation(value = "根据姓名查询小区信息")
+    public CommonResult<CommonPage<Community>> getCommunityByName(@RequestParam("name") String name,
+                                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                                  @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize) {
+        List<Community> communityList = communityService.getCommunityByName(name, pageNum, pageSize);
+        return CommonResult.success(CommonPage.resetPage(communityList));
+    }
+
     @GetMapping("/{id}")
     @ApiOperation(value = "根据id查询小区信息")
     public CommonResult<Community> getCommunityById(@PathVariable Long id) {
