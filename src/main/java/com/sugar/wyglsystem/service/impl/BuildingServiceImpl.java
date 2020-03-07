@@ -54,6 +54,7 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public int updateBuilding(Long id, Building building) {
         building.setId(id);
+        building.setCreateTime(building.getCreateTime());
         return buildingMapper.updateByPrimaryKey(building);
     }
 

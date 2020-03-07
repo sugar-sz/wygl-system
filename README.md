@@ -1,5 +1,5 @@
 # wygl-system
-vue+spring boot  毕业设计
+vue+spring boot 小区物业管理系统 毕业设计
 
 # 使用技术
 前端：
