@@ -5,9 +5,7 @@ import com.sugar.wyglsystem.dto.RoomDto;
 import com.sugar.wyglsystem.mbg.mapper.RoomMapper;
 import com.sugar.wyglsystem.mbg.model.Room;
 import com.sugar.wyglsystem.mbg.model.RoomExample;
-import com.sugar.wyglsystem.mbg.model.Unit;
 import com.sugar.wyglsystem.service.RoomService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,10 +74,22 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room insertRoom(Room room) {
         room.setCreateTime(new Date());
-        room.setStatus(0);
         int count = roomMapper.insert(room);
         if (count > 0) {
             return room;
+        }
+        return null;
+    }
+
+    @Override
+    public RoomDto getRoomByOwnerId(Long id) {
+        RoomDto roomDto = new RoomDto();
+        RoomExample example = new RoomExample();
+        example.createCriteria().andOwnerIdEqualTo(id);
+        List<Room> roomList = roomMapper.selectByExample(example);
+        if (roomList.size() > 0) {
+            roomDto.setList(roomList);
+            return roomDto;
         }
         return null;
     }

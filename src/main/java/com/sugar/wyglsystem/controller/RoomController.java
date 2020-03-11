@@ -6,6 +6,7 @@ import com.sugar.wyglsystem.dto.RoomDto;
 import com.sugar.wyglsystem.mbg.model.Room;
 import com.sugar.wyglsystem.service.RoomService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class RoomController {
     private RoomService roomService;
 
     @GetMapping("/list")
+    @ApiOperation("查询所有房屋")
     public CommonResult<CommonPage<Room>> getRoomList(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                       @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize) {
         System.out.println(pageSize);
@@ -35,6 +37,7 @@ public class RoomController {
     }
 
     @GetMapping("/delete/{id}")
+    @ApiOperation("根据id删除")
     public CommonResult deleteRoomList(@PathVariable Long id) {
         System.out.println(id);
         int count = roomService.deleteRoomById(id);
@@ -45,6 +48,7 @@ public class RoomController {
     }
 
     @PostMapping("/update/{id}")
+    @ApiOperation("更新房屋信息")
     public CommonResult updateRoom(@PathVariable Long id, @RequestBody Room room) {
         System.out.println(room);
         int count = roomService.updateRoom(id, room);
@@ -55,6 +59,7 @@ public class RoomController {
     }
 
     @GetMapping("/")
+    @ApiOperation("根据number查询房屋")
     public CommonResult getRoomByNumber(@RequestParam Long buildingNumber,
                                         @RequestParam Long unitNumber,
                                         @RequestParam Long roomNumber) {
@@ -66,6 +71,7 @@ public class RoomController {
     }
 
     @GetMapping("/{buildingNum}")
+    @ApiOperation("根据楼房number查询房屋")
     public CommonResult<CommonPage<Room>> getRoomInfoByBuildingNumber(@PathVariable Long buildingNum,
                                                                       @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
                                                                       @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize) {
@@ -76,7 +82,18 @@ public class RoomController {
         return CommonResult.failed("查询失败");
     }
 
+    @GetMapping("/owner/{id}")
+    @ApiOperation("根据业主id查询房屋")
+    public CommonResult getRoomInfoByOwnerId(@PathVariable Long id) {
+        RoomDto roomDto = roomService.getRoomByOwnerId(id);
+        if (roomDto != null) {
+            return CommonResult.success(roomDto);
+        }
+        return CommonResult.failed("查询失败");
+    }
+
     @PostMapping("/add")
+    @ApiOperation("新增房屋")
     public CommonResult insertRoom(@RequestBody Room room) {
         Room rs = roomService.insertRoom(room);
         if (rs != null) {

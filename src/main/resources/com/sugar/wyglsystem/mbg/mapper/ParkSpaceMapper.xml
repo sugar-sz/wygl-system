@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sugar.wyglsystem.mbg.mapper.RoomMapper">
-  <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.mbg.model.Room">
+<mapper namespace="com.sugar.wyglsystem.mbg.mapper.ParkSpaceMapper">
+  <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.mbg.model.ParkSpace">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="number" jdbcType="BIGINT" property="number" />
-    <result column="height" jdbcType="INTEGER" property="height" />
-    <result column="area" jdbcType="DECIMAL" property="area" />
-    <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="park_area_number" jdbcType="BIGINT" property="parkAreaNumber" />
+    <result column="area" jdbcType="DECIMAL" property="area" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="building_number" jdbcType="BIGINT" property="buildingNumber" />
-    <result column="unit_number" jdbcType="BIGINT" property="unitNumber" />
     <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
+    <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,16 +70,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, number, height, area, price, status, create_time, building_number, unit_number, 
-    owner_id
+    id, number, status, park_area_number, area, create_time, owner_id, car_number
   </sql>
-  <select id="selectByExample" parameterType="com.sugar.wyglsystem.mbg.model.RoomExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.sugar.wyglsystem.mbg.model.ParkSpaceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from room
+    from park_space
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,104 +89,90 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from room
+    from park_space
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from room
+    delete from park_space
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sugar.wyglsystem.mbg.model.RoomExample">
-    delete from room
+  <delete id="deleteByExample" parameterType="com.sugar.wyglsystem.mbg.model.ParkSpaceExample">
+    delete from park_space
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.sugar.wyglsystem.mbg.model.Room">
+  <insert id="insert" parameterType="com.sugar.wyglsystem.mbg.model.ParkSpace">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into room (number, height, area, 
-      price, status, create_time, 
-      building_number, unit_number, owner_id
-      )
-    values (#{number,jdbcType=BIGINT}, #{height,jdbcType=INTEGER}, #{area,jdbcType=DECIMAL}, 
-      #{price,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{buildingNumber,jdbcType=BIGINT}, #{unitNumber,jdbcType=BIGINT}, #{ownerId,jdbcType=BIGINT}
-      )
+    insert into park_space (number, status, park_area_number, 
+      area, create_time, owner_id, 
+      car_number)
+    values (#{number,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{parkAreaNumber,jdbcType=BIGINT}, 
+      #{area,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{ownerId,jdbcType=BIGINT}, 
+      #{carNumber,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sugar.wyglsystem.mbg.model.Room">
+  <insert id="insertSelective" parameterType="com.sugar.wyglsystem.mbg.model.ParkSpace">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into room
+    insert into park_space
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="number != null">
         number,
       </if>
-      <if test="height != null">
-        height,
+      <if test="status != null">
+        status,
+      </if>
+      <if test="parkAreaNumber != null">
+        park_area_number,
       </if>
       <if test="area != null">
         area,
       </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="buildingNumber != null">
-        building_number,
-      </if>
-      <if test="unitNumber != null">
-        unit_number,
-      </if>
       <if test="ownerId != null">
         owner_id,
+      </if>
+      <if test="carNumber != null">
+        car_number,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="number != null">
         #{number,jdbcType=BIGINT},
       </if>
-      <if test="height != null">
-        #{height,jdbcType=INTEGER},
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="parkAreaNumber != null">
+        #{parkAreaNumber,jdbcType=BIGINT},
       </if>
       <if test="area != null">
         #{area,jdbcType=DECIMAL},
       </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="buildingNumber != null">
-        #{buildingNumber,jdbcType=BIGINT},
-      </if>
-      <if test="unitNumber != null">
-        #{unitNumber,jdbcType=BIGINT},
       </if>
       <if test="ownerId != null">
         #{ownerId,jdbcType=BIGINT},
       </if>
+      <if test="carNumber != null">
+        #{carNumber,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sugar.wyglsystem.mbg.model.RoomExample" resultType="java.lang.Integer">
-    select count(*) from room
+  <select id="countByExample" parameterType="com.sugar.wyglsystem.mbg.model.ParkSpaceExample" resultType="java.lang.Integer">
+    select count(*) from park_space
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update room
+    update park_space
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -197,29 +180,23 @@
       <if test="record.number != null">
         number = #{record.number,jdbcType=BIGINT},
       </if>
-      <if test="record.height != null">
-        height = #{record.height,jdbcType=INTEGER},
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.parkAreaNumber != null">
+        park_area_number = #{record.parkAreaNumber,jdbcType=BIGINT},
       </if>
       <if test="record.area != null">
         area = #{record.area,jdbcType=DECIMAL},
       </if>
-      <if test="record.price != null">
-        price = #{record.price,jdbcType=DECIMAL},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
-      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.buildingNumber != null">
-        building_number = #{record.buildingNumber,jdbcType=BIGINT},
-      </if>
-      <if test="record.unitNumber != null">
-        unit_number = #{record.unitNumber,jdbcType=BIGINT},
-      </if>
       <if test="record.ownerId != null">
         owner_id = #{record.ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.carNumber != null">
+        car_number = #{record.carNumber,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -227,65 +204,55 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update room
+    update park_space
     set id = #{record.id,jdbcType=BIGINT},
       number = #{record.number,jdbcType=BIGINT},
-      height = #{record.height,jdbcType=INTEGER},
-      area = #{record.area,jdbcType=DECIMAL},
-      price = #{record.price,jdbcType=DECIMAL},
       status = #{record.status,jdbcType=INTEGER},
+      park_area_number = #{record.parkAreaNumber,jdbcType=BIGINT},
+      area = #{record.area,jdbcType=DECIMAL},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      building_number = #{record.buildingNumber,jdbcType=BIGINT},
-      unit_number = #{record.unitNumber,jdbcType=BIGINT},
-      owner_id = #{record.ownerId,jdbcType=BIGINT}
+      owner_id = #{record.ownerId,jdbcType=BIGINT},
+      car_number = #{record.carNumber,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sugar.wyglsystem.mbg.model.Room">
-    update room
+  <update id="updateByPrimaryKeySelective" parameterType="com.sugar.wyglsystem.mbg.model.ParkSpace">
+    update park_space
     <set>
       <if test="number != null">
         number = #{number,jdbcType=BIGINT},
       </if>
-      <if test="height != null">
-        height = #{height,jdbcType=INTEGER},
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="parkAreaNumber != null">
+        park_area_number = #{parkAreaNumber,jdbcType=BIGINT},
       </if>
       <if test="area != null">
         area = #{area,jdbcType=DECIMAL},
       </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="buildingNumber != null">
-        building_number = #{buildingNumber,jdbcType=BIGINT},
-      </if>
-      <if test="unitNumber != null">
-        unit_number = #{unitNumber,jdbcType=BIGINT},
       </if>
       <if test="ownerId != null">
         owner_id = #{ownerId,jdbcType=BIGINT},
       </if>
+      <if test="carNumber != null">
+        car_number = #{carNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sugar.wyglsystem.mbg.model.Room">
-    update room
+  <update id="updateByPrimaryKey" parameterType="com.sugar.wyglsystem.mbg.model.ParkSpace">
+    update park_space
     set number = #{number,jdbcType=BIGINT},
-      height = #{height,jdbcType=INTEGER},
-      area = #{area,jdbcType=DECIMAL},
-      price = #{price,jdbcType=DECIMAL},
       status = #{status,jdbcType=INTEGER},
+      park_area_number = #{parkAreaNumber,jdbcType=BIGINT},
+      area = #{area,jdbcType=DECIMAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      building_number = #{buildingNumber,jdbcType=BIGINT},
-      unit_number = #{unitNumber,jdbcType=BIGINT},
-      owner_id = #{ownerId,jdbcType=BIGINT}
+      owner_id = #{ownerId,jdbcType=BIGINT},
+      car_number = #{carNumber,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

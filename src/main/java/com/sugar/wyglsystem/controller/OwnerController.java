@@ -84,6 +84,6 @@ public class OwnerController {
         if (ownerDto != null) {
             return CommonResult.success(ownerDto);
         }
-        return null;
+        return CommonResult.failed("查询失败");
     }
 }

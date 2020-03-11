@@ -24,4 +24,6 @@ public interface RoomService {
     List<Room> getRoomInfoByBuildingNumber(Long buildingNum,Integer pageNum,Integer pageSize);
 
     Room insertRoom(Room room);
+
+    RoomDto getRoomByOwnerId(Long id);
 }
