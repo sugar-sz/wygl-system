@@ -2,6 +2,7 @@ package com.sugar.wyglsystem.controller;
 
 import com.sugar.wyglsystem.common.api.CommonPage;
 import com.sugar.wyglsystem.common.api.CommonResult;
+import com.sugar.wyglsystem.dto.ParkSpaceAndOwnerDto;
 import com.sugar.wyglsystem.dto.ParkSpaceDto;
 import com.sugar.wyglsystem.dto.RemainingParkSpaceDto;
 import com.sugar.wyglsystem.mbg.model.ParkSpace;
@@ -113,6 +114,17 @@ public class ParkSpaceController {
     public CommonResult countParkSpace() {
         int total = parkSpaceService.countTotal();
         int remaining = parkSpaceService.countRemainingParkSpace();
-        return CommonResult.success(new RemainingParkSpaceDto(total,remaining,new Date()));
+        return CommonResult.success(new RemainingParkSpaceDto(total, remaining, new Date()));
+    }
+
+    @GetMapping("/parkingSpaceCreateFee")
+    @ApiOperation("获取车位和业主信息")
+    public CommonResult getParkSpaceAndOwnerInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                                 @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize) {
+        List<ParkSpaceAndOwnerDto> parkSpaceAndOwnerDtoList = parkSpaceService.getParkSpaceAndOwnerInfo(pageNum, pageSize);
+        if (parkSpaceAndOwnerDtoList.size() > 0) {
+            return CommonResult.success(CommonPage.resetPage(parkSpaceAndOwnerDtoList));
+        }
+        return CommonResult.failed("查询失败");
     }
 }

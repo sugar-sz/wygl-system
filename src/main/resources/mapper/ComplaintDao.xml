@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sugar.wyglsystem.dao.ComplaintDao">
+    <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.dto.ComplaintAndRoomInfoDto">
+
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="roomId" column="room_id" jdbcType="BIGINT"/>
+        <result property="complaintPeople" column="complaint_people" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" javaType="Date"/>
+        <result property="buildingNumber" column="building_number" jdbcType="BIGINT"/>
+        <result property="unitNumber" column="unit_number" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="getComplaintInfo" resultMap="BaseResultMap">
+        select c.*,r.building_number,r.unit_number
+        from complaint c left join room r on c.room_id = r.id
+    </select>
+
+    <select id="getComplaintById" resultMap="BaseResultMap" parameterType="long">
+        select c.*,r.building_number,r.unit_number
+        from complaint c left join room r on c.room_id = r.id
+        where c.id = #{id}
+    </select>
+
+    <select id="getComplaintByName" resultMap="BaseResultMap" parameterType="string">
+        select c.*,r.building_number,r.unit_number
+        from complaint c left join room r on c.room_id = r.id
+        where c.complaint_people like #{name}
+    </select>
+
+    <select id="getComplaintByType" resultMap="BaseResultMap" parameterType="integer">
+        select c.*,r.building_number,r.unit_number
+        from complaint c left join room r on c.room_id = r.id
+        where c.type = #{type}
+    </select>
+</mapper>

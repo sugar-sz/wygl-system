@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sugar.wyglsystem.dao.ParkSpaceDao">
+    <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.dto.ParkSpaceAndOwnerDto">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="parkAreaNumber" column="park_area_number" jdbcType="BIGINT"/>
+        <result property="carNumber" column="car_number" jdbcType="BIGINT"/>
+        <result property="number" column="number" jdbcType="BIGINT"/>
+        <result property="ownerId" column="owner_id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="identity" column="identity" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getParkSpaceAndOwnerInfo" resultMap="BaseResultMap">
+        select  ps.id,ps.car_number,ps.park_area_number,ps.number,ps.owner_id,o.name,o.identity
+         from  park_space ps left join owner o on ps.owner_id = o.id
+    </select>
+</mapper>

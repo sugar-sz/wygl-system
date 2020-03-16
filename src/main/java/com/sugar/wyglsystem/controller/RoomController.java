@@ -2,6 +2,7 @@ package com.sugar.wyglsystem.controller;
 
 import com.sugar.wyglsystem.common.api.CommonPage;
 import com.sugar.wyglsystem.common.api.CommonResult;
+import com.sugar.wyglsystem.dto.RoomAndOwnerInfoDto;
 import com.sugar.wyglsystem.dto.RoomDto;
 import com.sugar.wyglsystem.mbg.model.Room;
 import com.sugar.wyglsystem.service.RoomService;
@@ -58,6 +59,16 @@ public class RoomController {
         return CommonResult.failed("更新失败");
     }
 
+    @GetMapping("/id/{id}")
+    @ApiOperation("根据id查询")
+    public CommonResult getRoomById(@PathVariable Long id) {
+        Room room = roomService.getRoomById(id);
+        if (room != null) {
+            return CommonResult.success(room);
+        }
+        return CommonResult.failed("查询失败");
+    }
+
     @GetMapping("/")
     @ApiOperation("根据number查询房屋")
     public CommonResult getRoomByNumber(@RequestParam Long buildingNumber,
@@ -102,4 +113,14 @@ public class RoomController {
         return CommonResult.failed("新增失败");
     }
 
+    @GetMapping("/roomCreateFee")
+    @ApiOperation("查询房屋信息和业主信息")
+    public CommonResult getRoomAndOwnerInfo(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+                                            @RequestParam(value = "pageSize", defaultValue = "3") Integer pageSize) {
+        List<RoomAndOwnerInfoDto> roomAndOwnerInfoDtoList = roomService.getRoomAndOwnerInfo(pageNum, pageSize);
+        if (roomAndOwnerInfoDtoList.size() > 0) {
+            return CommonResult.success(CommonPage.resetPage(roomAndOwnerInfoDtoList));
+        }
+        return CommonResult.failed("查询失败");
+    }
 }

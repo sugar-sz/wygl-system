@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sugar.wyglsystem.dao.RoomDao">
+    <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.dto.RoomAndOwnerInfoDto">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="buildingNumber" column="building_number" jdbcType="BIGINT"/>
+        <result property="unitNumber" column="unit_number" jdbcType="BIGINT"/>
+        <result property="number" column="number" jdbcType="BIGINT"/>
+        <result property="height" column="height" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="ownerId" column="owner_id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="identity" column="identity" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getRoomAndOwnerInfo" resultMap="BaseResultMap">
+        select  r.id,r.building_number,r.unit_number,r.number,r.height,r.status,r.owner_id,o.name,o.identity
+         from room r left join owner o on r.owner_id = o.id
+    </select>
+</mapper>

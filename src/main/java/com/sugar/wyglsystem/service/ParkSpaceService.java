@@ -1,7 +1,7 @@
 package com.sugar.wyglsystem.service;
 
+import com.sugar.wyglsystem.dto.ParkSpaceAndOwnerDto;
 import com.sugar.wyglsystem.dto.ParkSpaceDto;
-import com.sugar.wyglsystem.mbg.model.ParkArea;
 import com.sugar.wyglsystem.mbg.model.ParkSpace;
 
 import java.util.List;
@@ -22,4 +22,6 @@ public interface ParkSpaceService {
     ParkSpaceDto getParkSpaceByParkAreaNumber(Long number);
     int countRemainingParkSpace();
     int countTotal();
+
+    List<ParkSpaceAndOwnerDto> getParkSpaceAndOwnerInfo(Integer pageNum, Integer pageSize);
 }

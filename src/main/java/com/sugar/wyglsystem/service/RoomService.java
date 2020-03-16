@@ -1,5 +1,6 @@
 package com.sugar.wyglsystem.service;
 
+import com.sugar.wyglsystem.dto.RoomAndOwnerInfoDto;
 import com.sugar.wyglsystem.dto.RoomDto;
 import com.sugar.wyglsystem.dto.UnitDto;
 import com.sugar.wyglsystem.mbg.model.Room;
@@ -26,4 +27,8 @@ public interface RoomService {
     Room insertRoom(Room room);
 
     RoomDto getRoomByOwnerId(Long id);
+
+    Room getRoomById(Long id);
+
+    List<RoomAndOwnerInfoDto> getRoomAndOwnerInfo(Integer pageNum,Integer pageSize);
 }

@@ -1,11 +1,14 @@
 package com.sugar.wyglsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.sugar.wyglsystem.dao.RoomDao;
+import com.sugar.wyglsystem.dto.RoomAndOwnerInfoDto;
 import com.sugar.wyglsystem.dto.RoomDto;
 import com.sugar.wyglsystem.mbg.mapper.RoomMapper;
 import com.sugar.wyglsystem.mbg.model.Room;
 import com.sugar.wyglsystem.mbg.model.RoomExample;
 import com.sugar.wyglsystem.service.RoomService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,8 @@ import java.util.List;
 public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomMapper roomMapper;
+    @Autowired
+    private RoomDao roomDao;
 
     @Override
     public List<Room> getRoomList(Integer pageNum, Integer pageSize) {
@@ -90,6 +95,21 @@ public class RoomServiceImpl implements RoomService {
         if (roomList.size() > 0) {
             roomDto.setList(roomList);
             return roomDto;
+        }
+        return null;
+    }
+
+    @Override
+    public Room getRoomById(Long id) {
+        return roomMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<RoomAndOwnerInfoDto> getRoomAndOwnerInfo(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<RoomAndOwnerInfoDto> roomAndOwnerInfoDtoList = roomDao.getRoomAndOwnerInfo();
+        if (roomAndOwnerInfoDtoList.size() > 0) {
+            return roomAndOwnerInfoDtoList;
         }
         return null;
     }

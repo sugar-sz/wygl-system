@@ -1,6 +1,8 @@
 package com.sugar.wyglsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.sugar.wyglsystem.dao.ParkSpaceDao;
+import com.sugar.wyglsystem.dto.ParkSpaceAndOwnerDto;
 import com.sugar.wyglsystem.dto.ParkSpaceDto;
 import com.sugar.wyglsystem.mbg.mapper.ParkSpaceMapper;
 import com.sugar.wyglsystem.mbg.model.ParkArea;
@@ -23,6 +25,8 @@ import java.util.List;
 public class ParkSpaceServiceImpl implements ParkSpaceService {
     @Autowired
     private ParkSpaceMapper parkSpaceMapper;
+    @Autowired
+    private ParkSpaceDao parkSpaceDao;
 
     @Override
     public List<ParkSpace> getParkSpaceList(Integer pageNum, Integer pageSize) {
@@ -116,5 +120,15 @@ public class ParkSpaceServiceImpl implements ParkSpaceService {
     @Override
     public int countTotal() {
         return parkSpaceMapper.countByExample(new ParkSpaceExample());
+    }
+
+    @Override
+    public List<ParkSpaceAndOwnerDto> getParkSpaceAndOwnerInfo(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ParkSpaceAndOwnerDto> parkSpaceAndOwnerDtoList = parkSpaceDao.getParkSpaceAndOwnerInfo();
+        if (parkSpaceAndOwnerDtoList.size() > 0) {
+            return parkSpaceAndOwnerDtoList;
+        }
+        return null;
     }
 }
