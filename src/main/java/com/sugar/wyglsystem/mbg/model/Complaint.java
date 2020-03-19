@@ -8,7 +8,7 @@ public class Complaint implements Serializable {
     @ApiModelProperty(value = "投诉id")
     private Long id;
 
-    @ApiModelProperty(value = "类型")
+    @ApiModelProperty(value = "类型 ")
     private Integer type;
 
     @ApiModelProperty(value = "房屋id")
@@ -26,7 +26,7 @@ public class Complaint implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(value = "投诉状态")
+    @ApiModelProperty(value = "投诉状态 ")
     private Integer status;
 
     private static final long serialVersionUID = 1L;

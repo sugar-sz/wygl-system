@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sugar.wyglsystem.mbg.mapper.FeeMapper">
-  <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.mbg.model.Fee">
+<mapper namespace="com.sugar.wyglsystem.mbg.mapper.FeeDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.mbg.model.FeeDetails">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="fee_item" jdbcType="VARCHAR" property="feeItem" />
-    <result column="fee_flag" jdbcType="INTEGER" property="feeFlag" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="cost" jdbcType="DECIMAL" property="cost" />
+    <result column="fee_id" jdbcType="BIGINT" property="feeId" />
+    <result column="room_id" jdbcType="BIGINT" property="roomId" />
+    <result column="cycles" jdbcType="INTEGER" property="cycles" />
+    <result column="receivable_amount" jdbcType="DECIMAL" property="receivableAmount" />
+    <result column="received_amount" jdbcType="DECIMAL" property="receivedAmount" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,15 +70,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, fee_item, fee_flag, start_time, end_time, cost, create_time
+    id, fee_id, room_id, cycles, receivable_amount, received_amount, create_time, remark
   </sql>
-  <select id="selectByExample" parameterType="com.sugar.wyglsystem.mbg.model.FeeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.sugar.wyglsystem.mbg.model.FeeDetailsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from fee
+    from fee_details
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,114 +89,114 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from fee
+    from fee_details
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from fee
+    delete from fee_details
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sugar.wyglsystem.mbg.model.FeeExample">
-    delete from fee
+  <delete id="deleteByExample" parameterType="com.sugar.wyglsystem.mbg.model.FeeDetailsExample">
+    delete from fee_details
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.sugar.wyglsystem.mbg.model.Fee">
+  <insert id="insert" parameterType="com.sugar.wyglsystem.mbg.model.FeeDetails">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into fee (type, fee_item, fee_flag, 
-      start_time, end_time, cost, 
-      create_time)
-    values (#{type,jdbcType=INTEGER}, #{feeItem,jdbcType=VARCHAR}, #{feeFlag,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{cost,jdbcType=DECIMAL}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    insert into fee_details (fee_id, room_id, cycles, 
+      receivable_amount, received_amount, create_time, 
+      remark)
+    values (#{feeId,jdbcType=BIGINT}, #{roomId,jdbcType=BIGINT}, #{cycles,jdbcType=INTEGER}, 
+      #{receivableAmount,jdbcType=DECIMAL}, #{receivedAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sugar.wyglsystem.mbg.model.Fee">
+  <insert id="insertSelective" parameterType="com.sugar.wyglsystem.mbg.model.FeeDetails">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into fee
+    insert into fee_details
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="type != null">
-        type,
+      <if test="feeId != null">
+        fee_id,
       </if>
-      <if test="feeItem != null">
-        fee_item,
+      <if test="roomId != null">
+        room_id,
       </if>
-      <if test="feeFlag != null">
-        fee_flag,
+      <if test="cycles != null">
+        cycles,
       </if>
-      <if test="startTime != null">
-        start_time,
+      <if test="receivableAmount != null">
+        receivable_amount,
       </if>
-      <if test="endTime != null">
-        end_time,
-      </if>
-      <if test="cost != null">
-        cost,
+      <if test="receivedAmount != null">
+        received_amount,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="feeId != null">
+        #{feeId,jdbcType=BIGINT},
       </if>
-      <if test="feeItem != null">
-        #{feeItem,jdbcType=VARCHAR},
+      <if test="roomId != null">
+        #{roomId,jdbcType=BIGINT},
       </if>
-      <if test="feeFlag != null">
-        #{feeFlag,jdbcType=INTEGER},
+      <if test="cycles != null">
+        #{cycles,jdbcType=INTEGER},
       </if>
-      <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
+      <if test="receivableAmount != null">
+        #{receivableAmount,jdbcType=DECIMAL},
       </if>
-      <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="cost != null">
-        #{cost,jdbcType=DECIMAL},
+      <if test="receivedAmount != null">
+        #{receivedAmount,jdbcType=DECIMAL},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sugar.wyglsystem.mbg.model.FeeExample" resultType="java.lang.Integer">
-    select count(*) from fee
+  <select id="countByExample" parameterType="com.sugar.wyglsystem.mbg.model.FeeDetailsExample" resultType="java.lang.Integer">
+    select count(*) from fee_details
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update fee
+    update fee_details
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.feeId != null">
+        fee_id = #{record.feeId,jdbcType=BIGINT},
       </if>
-      <if test="record.feeItem != null">
-        fee_item = #{record.feeItem,jdbcType=VARCHAR},
+      <if test="record.roomId != null">
+        room_id = #{record.roomId,jdbcType=BIGINT},
       </if>
-      <if test="record.feeFlag != null">
-        fee_flag = #{record.feeFlag,jdbcType=INTEGER},
+      <if test="record.cycles != null">
+        cycles = #{record.cycles,jdbcType=INTEGER},
       </if>
-      <if test="record.startTime != null">
-        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      <if test="record.receivableAmount != null">
+        receivable_amount = #{record.receivableAmount,jdbcType=DECIMAL},
       </if>
-      <if test="record.endTime != null">
-        end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.cost != null">
-        cost = #{record.cost,jdbcType=DECIMAL},
+      <if test="record.receivedAmount != null">
+        received_amount = #{record.receivedAmount,jdbcType=DECIMAL},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,55 +204,55 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update fee
+    update fee_details
     set id = #{record.id,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER},
-      fee_item = #{record.feeItem,jdbcType=VARCHAR},
-      fee_flag = #{record.feeFlag,jdbcType=INTEGER},
-      start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      cost = #{record.cost,jdbcType=DECIMAL},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      fee_id = #{record.feeId,jdbcType=BIGINT},
+      room_id = #{record.roomId,jdbcType=BIGINT},
+      cycles = #{record.cycles,jdbcType=INTEGER},
+      receivable_amount = #{record.receivableAmount,jdbcType=DECIMAL},
+      received_amount = #{record.receivedAmount,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sugar.wyglsystem.mbg.model.Fee">
-    update fee
+  <update id="updateByPrimaryKeySelective" parameterType="com.sugar.wyglsystem.mbg.model.FeeDetails">
+    update fee_details
     <set>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="feeId != null">
+        fee_id = #{feeId,jdbcType=BIGINT},
       </if>
-      <if test="feeItem != null">
-        fee_item = #{feeItem,jdbcType=VARCHAR},
+      <if test="roomId != null">
+        room_id = #{roomId,jdbcType=BIGINT},
       </if>
-      <if test="feeFlag != null">
-        fee_flag = #{feeFlag,jdbcType=INTEGER},
+      <if test="cycles != null">
+        cycles = #{cycles,jdbcType=INTEGER},
       </if>
-      <if test="startTime != null">
-        start_time = #{startTime,jdbcType=TIMESTAMP},
+      <if test="receivableAmount != null">
+        receivable_amount = #{receivableAmount,jdbcType=DECIMAL},
       </if>
-      <if test="endTime != null">
-        end_time = #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="cost != null">
-        cost = #{cost,jdbcType=DECIMAL},
+      <if test="receivedAmount != null">
+        received_amount = #{receivedAmount,jdbcType=DECIMAL},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sugar.wyglsystem.mbg.model.Fee">
-    update fee
-    set type = #{type,jdbcType=INTEGER},
-      fee_item = #{feeItem,jdbcType=VARCHAR},
-      fee_flag = #{feeFlag,jdbcType=INTEGER},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      cost = #{cost,jdbcType=DECIMAL},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+  <update id="updateByPrimaryKey" parameterType="com.sugar.wyglsystem.mbg.model.FeeDetails">
+    update fee_details
+    set fee_id = #{feeId,jdbcType=BIGINT},
+      room_id = #{roomId,jdbcType=BIGINT},
+      cycles = #{cycles,jdbcType=INTEGER},
+      receivable_amount = #{receivableAmount,jdbcType=DECIMAL},
+      received_amount = #{receivedAmount,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

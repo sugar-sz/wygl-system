@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sugar.wyglsystem.dao.FeeDetailsDao">
+    <resultMap id="BaseResultMap" type="com.sugar.wyglsystem.dto.FeeDetailsDto">
+        <collection property="fee" ofType="com.sugar.wyglsystem.mbg.model.Fee" resultMap="com.sugar.wyglsystem.mbg.mapper.FeeMapper.BaseResultMap">
+
+        </collection>
+        <collection property="feeDetails" ofType="com.sugar.wyglsystem.mbg.model.FeeDetails" resultMap="com.sugar.wyglsystem.mbg.mapper.FeeDetailsMapper.BaseResultMap">
+
+        </collection>
+    </resultMap>
+
+    <select id="getFeeDetailsList" resultMap="BaseResultMap" parameterType="long">
+        select fd.*,f.* from fee_details fd left join fee f on fd.fee_id = f.id
+        where room_id = #{roomId}
+    </select>
+
+</mapper>

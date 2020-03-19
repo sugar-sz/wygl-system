@@ -1,10 +1,14 @@
 package com.sugar.wyglsystem.mbg.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
-public class WyglAdmin implements Serializable {
+public class WyglAdmin implements Serializable, UserDetails {
     @ApiModelProperty(value = "id")
     private Long id;
 
@@ -39,6 +43,32 @@ public class WyglAdmin implements Serializable {
     private String phone;
 
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
 
     public Long getId() {
         return id;

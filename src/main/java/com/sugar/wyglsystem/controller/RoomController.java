@@ -69,7 +69,7 @@ public class RoomController {
         return CommonResult.failed("查询失败");
     }
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation("根据number查询房屋")
     public CommonResult getRoomByNumber(@RequestParam Long buildingNumber,
                                         @RequestParam Long unitNumber,

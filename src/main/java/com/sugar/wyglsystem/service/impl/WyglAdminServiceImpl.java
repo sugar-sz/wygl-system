@@ -1,11 +1,16 @@
 package com.sugar.wyglsystem.service.impl;
 
 import com.sugar.wyglsystem.dao.WyglAdminDao;
+import com.sugar.wyglsystem.dto.WlAdmin;
 import com.sugar.wyglsystem.mbg.mapper.WyglAdminMapper;
 import com.sugar.wyglsystem.mbg.model.WyglAdmin;
 import com.sugar.wyglsystem.service.WyglAdminService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +23,13 @@ import java.util.Date;
  */
 @Service
 @Transactional
-public class WyglAdminServiceImpl implements WyglAdminService {
+public class WyglAdminServiceImpl implements WyglAdminService{
     @Autowired
     private WyglAdminMapper wyglAdminMapper;
     @Autowired
     private WyglAdminDao wyglAdminDao;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public WyglAdmin login(String username, String password) {
@@ -52,6 +59,7 @@ public class WyglAdminServiceImpl implements WyglAdminService {
             System.out.println(22);
             return null;
         }
+        wyglAdmin.setPassword(passwordEncoder.encode(wyglAdmin.getPassword()));
         wyglAdminMapper.insert(wyglAdmin);
         return wyglAdmin;
     }
@@ -59,5 +67,15 @@ public class WyglAdminServiceImpl implements WyglAdminService {
     @Override
     public WyglAdmin getAdminById(Long id) {
         return wyglAdminMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        System.out.println(s);
+        WyglAdmin wyglAdmin = wyglAdminDao.selectUserByUsername(s);
+        if (wyglAdmin == null) {
+            throw new UsernameNotFoundException("用户名未找到");
+        }
+        return new WlAdmin(wyglAdmin);
     }
 }
