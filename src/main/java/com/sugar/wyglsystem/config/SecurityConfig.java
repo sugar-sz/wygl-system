@@ -2,7 +2,9 @@ package com.sugar.wyglsystem.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sugar.wyglsystem.common.api.CommonResult;
+import com.sugar.wyglsystem.common.utils.JwtUtils;
 import com.sugar.wyglsystem.dto.WlAdmin;
+import com.sugar.wyglsystem.filter.JwtAuthenticationTokenFilter;
 import com.sugar.wyglsystem.service.WyglAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,11 +19,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -47,6 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Autowired
     private WyglAdminService userDetailsService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -57,13 +62,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
         web.ignoring().antMatchers("/login","/register","/css/**", "/js/**", "/index.html", "/img/**", "/fonts/**", "/favicon.ico", "/swagger-resources/**");
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS)
                 .permitAll()
-//                .anyRequest()
-//                .authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .cors()
                 .and()
@@ -80,6 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                         PrintWriter out = httpServletResponse.getWriter();
                         WlAdmin wlAdmin = (WlAdmin) authentication.getPrincipal();
                         wlAdmin.setPassword(null);
+                        wlAdmin.setToken(jwtUtils.generateToken(wlAdmin));
                         CommonResult commonResult = CommonResult.success(wlAdmin);
                         String s = new ObjectMapper().writeValueAsString(commonResult);
                         out.write(s);
@@ -142,7 +149,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                         out.flush();
                         out.close();
                     }
-                });
+                })
+                .and()
+                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
+        return new JwtAuthenticationTokenFilter();
     }
 
     @Bean

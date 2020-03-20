@@ -40,7 +40,7 @@ public class WyglAdminController {
     public CommonResult getAdminById(@RequestParam Long id) {
         System.out.println(id);
         WyglAdmin admin = adminService.getAdminById(id);
-        if(admin!=null){
+        if (admin != null) {
             return CommonResult.success(admin);
         }
         return CommonResult.failed("查询失败");

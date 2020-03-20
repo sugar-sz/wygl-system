@@ -17,6 +17,8 @@ public class WlAdmin implements UserDetails {
 
     private WyglAdmin wyglAdmin;
 
+    private String token;
+
     public WlAdmin(WyglAdmin wyglAdmin) {
         this.wyglAdmin = wyglAdmin;
     }
