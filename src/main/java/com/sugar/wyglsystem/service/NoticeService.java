@@ -24,4 +24,6 @@ public interface NoticeService {
     int updateNotice(Long id, Notice notice);
 
     Notice insertNotice(Notice notice);
+
+    int getNoticeCount();
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sugar.wyglsystem.dao.AdminRoleRelationDao">
+
+    <select id="getRoleList" resultMap="com.sugar.wyglsystem.mbg.mapper.RoleMapper.BaseResultMap" parameterType="long">
+        select r.* from
+        admin_role_relation ar
+        left JOIN role r on ar.role_id = r.id
+        left JOIN wygl_admin a on ar.admin_id = a.id
+        where a.id = #{id}
+    </select>
+
+
+</mapper>

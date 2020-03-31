@@ -8,6 +8,7 @@ import com.sugar.wyglsystem.service.ParkAreaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -69,6 +70,7 @@ public class ParkAreaController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     @ApiOperation("更新停车场信息")
     public CommonResult updateParkArea(@PathVariable Long id, @RequestBody ParkArea parkArea) {
@@ -79,6 +81,7 @@ public class ParkAreaController {
         return CommonResult.failed("更新失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation("根据id删除")
     public CommonResult deleteParkArea(@PathVariable Long id) {
@@ -89,6 +92,7 @@ public class ParkAreaController {
         return CommonResult.failed("删除失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation("新增停车场")
     public CommonResult insertParkArea(@RequestBody ParkArea parkArea) {

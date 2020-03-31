@@ -44,7 +44,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public List<Notice> getNoticeByTitle(String title, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         NoticeExample example = new NoticeExample();
         example.createCriteria().andTitleLike("%" + title + "%");
         List<Notice> noticeList = noticeMapper.selectByExample(example);
@@ -56,7 +56,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public List<Notice> getNoticeByType(Integer type, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         NoticeExample example = new NoticeExample();
         example.createCriteria().andTypeEqualTo(type);
         List<Notice> noticeList = noticeMapper.selectByExample(example);
@@ -79,5 +79,10 @@ public class NoticeServiceImpl implements NoticeService {
             return notice;
         }
         return null;
+    }
+
+    @Override
+    public int getNoticeCount() {
+        return noticeMapper.countByExample(new NoticeExample());
     }
 }

@@ -76,4 +76,9 @@ public class OwnerServiceImpl implements OwnerService {
         ownerMapper.insert(owner);
         return owner;
     }
+
+    @Override
+    public int getOwnerCount() {
+        return ownerMapper.countByExample(new OwnerExample());
+    }
 }

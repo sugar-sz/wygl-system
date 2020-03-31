@@ -14,4 +14,8 @@ public interface FeeDetailsService {
     int insert(FeeDetails feeDetails);
 
     List<FeeDetailsDto> getFeeDetailsList(Long roomId, Integer pageNum, Integer pageSize);
+
+    int update(Long id, FeeDetails feeDetails);
+
+    int delete(Long id);
 }

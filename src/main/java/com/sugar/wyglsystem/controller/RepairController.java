@@ -8,6 +8,7 @@ import com.sugar.wyglsystem.service.RepairService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class RepairController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation("登记保修信息")
     public CommonResult insertRepair(@RequestBody Repair repair) {

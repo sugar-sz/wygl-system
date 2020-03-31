@@ -8,6 +8,7 @@ import com.sugar.wyglsystem.service.OwnerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class OwnerController {
         return CommonResult.success(CommonPage.resetPage(ownerList));
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation("增加业主信息")
     public CommonResult<Owner> insertOwner(@RequestBody Owner owner) {
@@ -44,6 +46,7 @@ public class OwnerController {
         return CommonResult.failed("增加失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation("删除业主信息")
     public CommonResult deleteOwner(@PathVariable Long id) {
@@ -54,6 +57,7 @@ public class OwnerController {
         return CommonResult.failed("操作失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     @ApiOperation("更新业主信息")
     public CommonResult updateOwner(@PathVariable Long id, @RequestBody Owner owner) {
@@ -83,6 +87,16 @@ public class OwnerController {
         OwnerDto ownerDto = ownerService.getOwnerById(id);
         if (ownerDto != null) {
             return CommonResult.success(ownerDto);
+        }
+        return CommonResult.failed("查询失败");
+    }
+
+    @GetMapping("/count")
+    @ApiOperation("查询业主数")
+    public CommonResult getOwnerCount() {
+        int count = ownerService.getOwnerCount();
+        if (count > 0) {
+            return CommonResult.success(count);
         }
         return CommonResult.failed("查询失败");
     }

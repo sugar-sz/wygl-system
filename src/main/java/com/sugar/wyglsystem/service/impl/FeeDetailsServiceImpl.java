@@ -1,5 +1,6 @@
 package com.sugar.wyglsystem.service.impl;
 
+import com.alibaba.druid.sql.dialect.odps.ast.OdpsAddStatisticStatement;
 import com.github.pagehelper.PageHelper;
 import com.sugar.wyglsystem.dao.FeeDetailsDao;
 import com.sugar.wyglsystem.dto.FeeDetailsDto;
@@ -35,5 +36,16 @@ public class FeeDetailsServiceImpl implements FeeDetailsService {
     public List<FeeDetailsDto> getFeeDetailsList(Long roomId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return feeDetailsDao.getFeeDetailsList(roomId);
+    }
+
+    @Override
+    public int update(Long id, FeeDetails feeDetails) {
+        feeDetails.setId(id);
+        return feeDetailsMapper.updateByPrimaryKey(feeDetails);
+    }
+
+    @Override
+    public int delete(Long id) {
+        return feeDetailsMapper.deleteByPrimaryKey(id);
     }
 }

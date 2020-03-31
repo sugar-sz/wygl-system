@@ -1,11 +1,14 @@
 package com.sugar.wyglsystem.dto;
 
+import com.sugar.wyglsystem.mbg.model.Role;
 import com.sugar.wyglsystem.mbg.model.WyglAdmin;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author ：lyj
@@ -13,24 +16,31 @@ import java.util.Collection;
  * @description：
  */
 @Data
-public class WlAdmin implements UserDetails {
+public class AdminUserDetails implements UserDetails {
 
     private WyglAdmin wyglAdmin;
 
+    private List<Role> roleList;
+
     private String token;
 
-    public WlAdmin(WyglAdmin wyglAdmin) {
+    public AdminUserDetails(WyglAdmin wyglAdmin, List<Role> roleList) {
         this.wyglAdmin = wyglAdmin;
+        this.roleList = roleList;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roleList.stream()
+                .filter((role) -> role.getName() != null)
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
     }
 
-    public void setPassword(String s){
+    public void setPassword(String s) {
         this.wyglAdmin.setPassword(s);
     }
+
     @Override
     public String getPassword() {
         return wyglAdmin.getPassword();

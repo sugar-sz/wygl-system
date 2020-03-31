@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class FeeConfigController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     @ApiOperation("更新信息")
     public CommonResult updateFeeConfig(@PathVariable Long id, @RequestBody Fee fee) {
@@ -49,6 +51,7 @@ public class FeeConfigController {
         return CommonResult.failed("更新失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation("新增信息")
     public CommonResult insertFeeConfig(@RequestBody Fee fee) {
@@ -59,6 +62,7 @@ public class FeeConfigController {
         return CommonResult.failed("插入失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation("删除费用项")
     public CommonResult deleteFeeConfig(@PathVariable Long id) {

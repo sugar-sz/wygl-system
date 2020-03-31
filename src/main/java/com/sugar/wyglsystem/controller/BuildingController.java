@@ -7,6 +7,7 @@ import com.sugar.wyglsystem.mbg.model.Building;
 import com.sugar.wyglsystem.service.BuildingService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public class BuildingController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     public CommonResult insertBuilding(@RequestBody Building building) {
         Building rs = buildingService.insertBuilding(building);
@@ -73,6 +75,7 @@ public class BuildingController {
         return CommonResult.failed("插入失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     public CommonResult updateBuilding(@PathVariable Long id, @RequestBody Building building) {
         int count = buildingService.updateBuilding(id, building);
@@ -82,6 +85,7 @@ public class BuildingController {
         return CommonResult.failed("更新失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     public CommonResult deleteBuilding(@PathVariable Long id) {
         int count = buildingService.deleteBuilding(id);
@@ -90,6 +94,5 @@ public class BuildingController {
         }
         return CommonResult.failed("删除失败");
     }
-
 
 }

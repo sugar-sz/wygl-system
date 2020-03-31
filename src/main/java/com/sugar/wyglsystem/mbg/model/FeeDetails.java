@@ -30,6 +30,9 @@ public class FeeDetails implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    @ApiModelProperty(value = "状态 0 收费中 1 收费完成")
+    private Integer status;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -96,6 +99,14 @@ public class FeeDetails implements Serializable {
         this.remark = remark;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -110,6 +121,7 @@ public class FeeDetails implements Serializable {
         sb.append(", receivedAmount=").append(receivedAmount);
         sb.append(", createTime=").append(createTime);
         sb.append(", remark=").append(remark);
+        sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

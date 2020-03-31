@@ -10,6 +10,7 @@ import com.sugar.wyglsystem.service.ParkSpaceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -79,6 +80,7 @@ public class ParkSpaceController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     @ApiOperation("更新停车场信息")
     public CommonResult updateParkSpace(@PathVariable Long id, @RequestBody ParkSpace parkSpace) {
@@ -89,6 +91,7 @@ public class ParkSpaceController {
         return CommonResult.failed("更新失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation("根据id删除")
     public CommonResult deleteParkSpace(@PathVariable Long id) {
@@ -99,6 +102,7 @@ public class ParkSpaceController {
         return CommonResult.failed("删除失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation("新增停车场")
     public CommonResult insertParkSpace(@RequestBody ParkSpace parkSpace) {

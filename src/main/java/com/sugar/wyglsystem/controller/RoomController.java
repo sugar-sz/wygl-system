@@ -9,6 +9,7 @@ import com.sugar.wyglsystem.service.RoomService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class RoomController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation("根据id删除")
     public CommonResult deleteRoomList(@PathVariable Long id) {
@@ -48,6 +50,7 @@ public class RoomController {
         return CommonResult.failed("删除失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     @ApiOperation("更新房屋信息")
     public CommonResult updateRoom(@PathVariable Long id, @RequestBody Room room) {
@@ -103,6 +106,7 @@ public class RoomController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation("新增房屋")
     public CommonResult insertRoom(@RequestBody Room room) {
@@ -120,6 +124,16 @@ public class RoomController {
         List<RoomAndOwnerInfoDto> roomAndOwnerInfoDtoList = roomService.getRoomAndOwnerInfo(pageNum, pageSize);
         if (roomAndOwnerInfoDtoList.size() > 0) {
             return CommonResult.success(CommonPage.resetPage(roomAndOwnerInfoDtoList));
+        }
+        return CommonResult.failed("查询失败");
+    }
+
+    @GetMapping("/count")
+    @ApiOperation("查询剩余房间数")
+    public CommonResult getRoomCount() {
+        int count = roomService.getRoomCount();
+        if (count >= 0) {
+            return CommonResult.success(count);
         }
         return CommonResult.failed("查询失败");
     }

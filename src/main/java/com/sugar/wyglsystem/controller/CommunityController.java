@@ -7,6 +7,7 @@ import com.sugar.wyglsystem.service.CommunityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,6 +53,7 @@ public class CommunityController {
         return CommonResult.success(community);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation(value = "删除小区信息")
     public CommonResult deleteCommunity(@PathVariable Long id) {
@@ -62,6 +64,7 @@ public class CommunityController {
         return CommonResult.failed("操作失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/deleteList")
     @ApiOperation(value = "根据List删除所有")
     public CommonResult deleteListCommunity(@RequestParam("ids") List<Long> idList) {
@@ -73,6 +76,7 @@ public class CommunityController {
         return CommonResult.failed("删除失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation(value = "增加小区信息")
     public CommonResult<Community> insertCommunity(@RequestBody Community community) {
@@ -83,6 +87,7 @@ public class CommunityController {
         return CommonResult.failed("操作失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping(value = "/update/{id}", produces = "application/json")
     @ApiOperation(value = "更新小区信息")
     public CommonResult updateCommunity(@PathVariable long id, @RequestBody Community community) {

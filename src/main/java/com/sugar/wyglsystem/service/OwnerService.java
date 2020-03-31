@@ -22,4 +22,6 @@ public interface OwnerService {
     int updateOwner(Long id, Owner owner);
 
     Owner insertOwner(Owner owner);
+
+    int getOwnerCount();
 }

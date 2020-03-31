@@ -4,6 +4,7 @@ import com.sugar.wyglsystem.common.api.CommonResult;
 import com.sugar.wyglsystem.mbg.model.Car;
 import com.sugar.wyglsystem.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class CarController {
     @Autowired
     private CarService carService;
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     public CommonResult insertCar(@RequestBody Car car) {
         int count = carService.insertCar(car);

@@ -1,20 +1,23 @@
 package com.sugar.wyglsystem.service.impl;
 
+import com.sugar.wyglsystem.dao.AdminRoleRelationDao;
 import com.sugar.wyglsystem.dao.WyglAdminDao;
-import com.sugar.wyglsystem.dto.WlAdmin;
+import com.sugar.wyglsystem.dto.AdminUserDetails;
 import com.sugar.wyglsystem.mbg.mapper.WyglAdminMapper;
+import com.sugar.wyglsystem.mbg.model.AdminRoleRelation;
+import com.sugar.wyglsystem.mbg.model.Role;
 import com.sugar.wyglsystem.mbg.model.WyglAdmin;
 import com.sugar.wyglsystem.service.WyglAdminService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author ：lyj
@@ -30,6 +33,8 @@ public class WyglAdminServiceImpl implements WyglAdminService{
     private WyglAdminDao wyglAdminDao;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AdminRoleRelationDao adminRoleRelationDao;
 
     @Override
     public WyglAdmin login(String username, String password) {
@@ -76,6 +81,7 @@ public class WyglAdminServiceImpl implements WyglAdminService{
         if (wyglAdmin == null) {
             throw new UsernameNotFoundException("用户名未找到");
         }
-        return new WlAdmin(wyglAdmin);
+        List<Role> roleList = adminRoleRelationDao.getRoleList(wyglAdmin.getId());
+        return new AdminUserDetails(wyglAdmin,roleList);
     }
 }

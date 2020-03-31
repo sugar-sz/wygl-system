@@ -1,7 +1,6 @@
 package com.sugar.wyglsystem.controller;
 
 import com.sugar.wyglsystem.common.api.CommonResult;
-import com.sugar.wyglsystem.dto.AdminLoginParam;
 import com.sugar.wyglsystem.mbg.model.WyglAdmin;
 import com.sugar.wyglsystem.service.WyglAdminService;
 import io.swagger.annotations.Api;

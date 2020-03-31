@@ -7,6 +7,7 @@ import com.sugar.wyglsystem.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class MemberController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     @ApiOperation(value = "更新成员信息")
     public CommonResult updateMember(@PathVariable Long id, @RequestBody Member member) {
@@ -55,6 +57,7 @@ public class MemberController {
         return CommonResult.failed("更新失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation(value = "根据id删除")
     public CommonResult deleteMember(@PathVariable Long id) {
@@ -65,6 +68,7 @@ public class MemberController {
         return null;
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation(value = "新增成员")
     public CommonResult insertMember(@RequestBody Member member) {

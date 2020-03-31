@@ -8,6 +8,7 @@ import com.sugar.wyglsystem.service.UnitService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,6 +67,7 @@ public class UnitController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     public CommonResult deleteUnit(@PathVariable Long id) {
         int count = unitService.deleteUnitById(id);
@@ -75,6 +77,7 @@ public class UnitController {
         return CommonResult.failed("删除失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     public CommonResult insertUnit(@RequestBody Unit unit) {
         System.out.println(unit);
@@ -85,6 +88,7 @@ public class UnitController {
         return CommonResult.failed("插入失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     public CommonResult updateUnit(@PathVariable Long id, @RequestBody Unit unit) {
         System.out.println(unit);

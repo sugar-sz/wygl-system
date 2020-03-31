@@ -7,6 +7,7 @@ import com.sugar.wyglsystem.service.NoticeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,6 +69,7 @@ public class NoticeController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation("插入notice")
     public CommonResult insertNotice(@RequestBody Notice notice) {
@@ -78,6 +80,7 @@ public class NoticeController {
         return CommonResult.failed("插入失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     @ApiOperation("更新notice")
     public CommonResult updateNotice(@PathVariable Long id, @RequestBody Notice notice) {
@@ -88,6 +91,7 @@ public class NoticeController {
         return CommonResult.failed("更新失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation("删除notice")
     public CommonResult deleteNotice(@PathVariable Long id) {
@@ -96,5 +100,15 @@ public class NoticeController {
             return CommonResult.success(count);
         }
         return CommonResult.failed("删除失败");
+    }
+
+    @GetMapping("/count")
+    @ApiOperation("获取通知数量")
+    public CommonResult getNoticeCount() {
+        int count = noticeService.getNoticeCount();
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed("查询失败");
     }
 }

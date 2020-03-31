@@ -8,6 +8,7 @@ import com.sugar.wyglsystem.service.ComplaintService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,6 +70,7 @@ public class ComplaintController {
         return CommonResult.failed("查询失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/add")
     @ApiOperation("新增complaint")
     public CommonResult insertComplaint(@RequestBody Complaint complaint) {
@@ -79,6 +81,7 @@ public class ComplaintController {
         return CommonResult.failed("插入失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @GetMapping("/delete/{id}")
     @ApiOperation("根据id删除")
     public CommonResult deleteComplaint(@PathVariable Long id) {
@@ -89,6 +92,7 @@ public class ComplaintController {
         return CommonResult.failed("删除失败");
     }
 
+    @PreAuthorize("hasAuthority('ROLE_admin')")
     @PostMapping("/update/{id}")
     @ApiOperation("更新complaint")
     public CommonResult updateComplaint(@PathVariable Long id, @RequestBody Complaint complaint) {

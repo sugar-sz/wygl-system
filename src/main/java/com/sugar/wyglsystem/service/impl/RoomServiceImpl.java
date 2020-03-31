@@ -113,4 +113,11 @@ public class RoomServiceImpl implements RoomService {
         }
         return null;
     }
+
+    @Override
+    public int getRoomCount() {
+        RoomExample example = new RoomExample();
+        example.createCriteria().andOwnerIdIsNotNull();
+        return roomMapper.countByExample(example);
+    }
 }

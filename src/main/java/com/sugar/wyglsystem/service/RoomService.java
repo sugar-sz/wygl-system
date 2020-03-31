@@ -31,4 +31,6 @@ public interface RoomService {
     Room getRoomById(Long id);
 
     List<RoomAndOwnerInfoDto> getRoomAndOwnerInfo(Integer pageNum,Integer pageSize);
+
+    int getRoomCount();
 }
